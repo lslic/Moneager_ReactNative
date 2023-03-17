@@ -1,6 +1,9 @@
 #!/bin/sh
 
 
+export WORKSPACE=$0
+
+
 # shellcheck disable=SC2046
 if [ $(id -u) = 0 ]
 then

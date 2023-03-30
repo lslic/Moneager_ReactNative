@@ -2,6 +2,7 @@
 
 export type colors = string;
 export type PrimaryColors = string;
+export type NeutralColors = string;
 
 // colors.js
 

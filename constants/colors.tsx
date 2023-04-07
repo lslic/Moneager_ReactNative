@@ -7,9 +7,7 @@ export type NeutralColors = string;
 // colors.js
 
 export const colors = {
-	PRIMARY_COLOR: '#007AFF',
-	SECONDARY_COLOR: '#FF3B30',
-	BACKGROUND_COLOR: '#F5F5F5',
+	BLACK: '#000000',
 };
 
 
@@ -20,9 +18,11 @@ export const PrimaryColors = {
 }
 
 export const NeutralColors = {
-	NC_1200: '#18171F',
-	NC_900: '#49465F',
-	NC_700: '#A4A0C0',
-	NC_300: '#D2D3D3',
-	NC_WHITE: '#F6F6F6',
+	NC_1200:   '#18171F',
+	NC_900:    '#49465F',
+	NC_700:    '#A4A0C0',
+	NC_300:    '#D2D3D3',
+	NC_D_GRAY: '#7B7B7B',
+	NC_GRAY:   '#B6B6B6',
+	NC_WHITE:  '#F6F6F6'
 }

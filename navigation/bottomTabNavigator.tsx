@@ -17,7 +17,7 @@ const bottomTabNavigator = createBottomTabNavigator();
 export function BottomNavigator() {
     return (
         <NavigationContainer theme={scheme.getSchemeType() === 'dark' ? DarkTheme : DefaultTheme}>
-            <bottomTabNavigator.Navigator>
+            <bottomTabNavigator.Navigator screenOptions={{headerShown: false,}}>
                 <bottomTabNavigator.Screen name="Home" component={HomeScreen} />
                 <bottomTabNavigator.Screen name="Profile" component={ProfileScreen} />
                 <bottomTabNavigator.Screen name="Main" component={MainScreen} />

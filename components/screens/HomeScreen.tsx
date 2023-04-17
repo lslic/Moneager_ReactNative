@@ -1,17 +1,25 @@
 import * as React from "react";
-import {StyleSheet, Text, TextInput, View} from "react-native";
+import {ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
 import {CustomButton} from "../ui/buttons";
 import {colors, NeutralColors} from "../../constants/colors";
+import {Image} from "expo-image";
 
+const path = 'assets/images/logo.png'
 
 export function HomeScreen() {
     return (
+<ScrollView>
         <View style={{flex: 1, alignItems: 'center'}}>
 
+
+
             <View style={headerStyles.container}>
+                {/*/!*<View style={bodyStyles.container}>*!/*/}
+                {/*    <Image source="https://picsum.photos/seed/696/3000/2000"></Image>*/}
+                {/*</View>*/}
                 <Text style={headerStyles.text}>Step 1 of 4</Text>
                 <Text style={headerStyles.text}>Exit</Text>
-            </View> 
+            </View>
 
             <View>
                 <Text style={headerStyles.motoText}>Create an account</Text>
@@ -51,6 +59,7 @@ export function HomeScreen() {
             </View>
 
         </View>
+    </ScrollView>
     );
 }
 

@@ -1,21 +1,28 @@
 import * as React from "react";
-import {ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
+import {ScrollView, StyleSheet, Text, TextInput, View, Image} from "react-native";
 import {CustomButton} from "../ui/buttons";
 import {colors, NeutralColors} from "../../constants/colors";
-import {Image} from "expo-image";
+import {jwt, LOGIN_MUTATION} from "../../constants/grafql";
+import {useState} from "react";
+import {useMutation, useReactiveVar} from "@apollo/client";
+
 
 const path = 'assets/images/logo.png'
+
+const [user, setUser] = useState('');
+const [pass, setPassword] = useState('');
+
+const loggedIn = useReactiveVar(jwt);
+
+const [login, {data, loading}] = useMutation(LOGIN_MUTATION);
 
 export function HomeScreen() {
     return (
 <ScrollView>
         <View style={{flex: 1, alignItems: 'center'}}>
-
-
-
             <View style={headerStyles.container}>
-                {/*/!*<View style={bodyStyles.container}>*!/*/}
-                {/*    <Image source="https://picsum.photos/seed/696/3000/2000"></Image>*/}
+                {/*<View style={bodyStyles.container}>*/}
+                {/*    <Image url="https://picsum.photos/seed/696/3000/2000"></Image>*/}
                 {/*</View>*/}
                 <Text style={headerStyles.text}>Step 1 of 4</Text>
                 <Text style={headerStyles.text}>Exit</Text>
@@ -36,9 +43,16 @@ export function HomeScreen() {
             </View>
 
             <View style={bodyStyles.container}>
-                <CustomButton unfilled={false} title={'Sign Up'} onPress={() => {
-                    console.log('button1');
-                }} name={false}/>
+                <CustomButton unfilled={false} title={'Sign Up'} onPress={() => login({
+                    variables: {
+                        input: {
+                            identifier: user,
+                            password: pass
+                        }
+                    }
+                }).then(r => {
+                    jwt(r.data.login.jwt);
+                })} name={false}/>
             </View>
 
             <View style={bodyStyles.container}>
@@ -46,9 +60,9 @@ export function HomeScreen() {
             </View>
 
             <View style={bodyStyles.container}>
-                <TextInput style={bodyStyles.textInput} placeholder={'Your Name'}></TextInput>
+                <TextInput style={bodyStyles.textInput} placeholder={'Your Name'}  onChangeText={e => setUser(e)}/>
                 <TextInput style={bodyStyles.textInput} placeholder={'YourEmail@.com'}></TextInput>
-                <TextInput style={bodyStyles.textInput} placeholder={'Password'}></TextInput>
+                <TextInput style={bodyStyles.textInput} placeholder={'Password'}  onChangeText={e => setPassword(e)}/>
             </View>
 
 
@@ -57,6 +71,7 @@ export function HomeScreen() {
                     privacy policy.</Text>
                 <Text style={footerStyles.textHasAccount}>Already have an account? Log in</Text>
             </View>
+
 
         </View>
     </ScrollView>

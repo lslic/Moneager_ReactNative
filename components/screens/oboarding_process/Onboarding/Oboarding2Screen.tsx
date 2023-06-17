@@ -34,7 +34,7 @@ export function Onboarding2 ({navigation}) {
                 <CustomButton
                     unfilled={false}
                     title={'Next'}
-                    onPress={() => navigation.navigate('RegisterPage')}
+                    onPress={() => navigation.navigate('Onboarding3')}
                     name={false}
                 />
             </View>
@@ -53,7 +53,7 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     image: {
-        width: "95%",
+        width: "85%",
         marginTop: 80,
         marginBottom:215,
     }

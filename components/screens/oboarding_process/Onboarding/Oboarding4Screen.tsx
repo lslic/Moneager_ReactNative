@@ -4,29 +4,29 @@ import {colors, NeutralColors} from "../../../../constants/colors";
 import {CustomButton} from "../../../ui/buttons";
 import {useNavigation} from "@react-navigation/native";
 
-const imageOnbd3 = require("../../../../assets/images/ilustrations/money.png");
+const imageOnbd4 = require("../../../../assets/images/ilustrations/statistics.png");
 
 
 
 // @ts-ignore
-export function Onboarding3 ({navigation}) {
+export function Onboarding4 ({navigation}) {
     return (
         <View style={styles.container}>
             <View style={headerStyles.container}>
-                <Text style={headerStyles.text}>Step 3 of 4</Text>
+                <Text style={headerStyles.text}>Step 4 of 4</Text>
                 <Text style={headerStyles.textS}  onPress={() => navigation.goBack()}>Back</Text>
             </View>
 
             <Image
                 style={styles.image}
-                source={imageOnbd3}
+                source={imageOnbd4}
                 resizeMode="contain"
             />
 
 
             <View style={bodyStyles.container}>
-                <Text style={bodyStyles.HeaderText}>See your spending habits</Text>
-                <Text style={bodyStyles.Subtext}> Moneager keep track of your spending adventures.</Text>
+                <Text style={bodyStyles.HeaderText}>See your investments</Text>
+                <Text style={bodyStyles.Subtext}> Gradually invest </Text>
 
             </View>
 
@@ -34,7 +34,7 @@ export function Onboarding3 ({navigation}) {
                 <CustomButton
                     unfilled={false}
                     title={'Next'}
-                    onPress={() => navigation.navigate('Onboarding4')}
+                    onPress={() => navigation.navigate('OnboardingFinal')}
                     name={false}
                 />
             </View>
@@ -55,7 +55,7 @@ const styles = StyleSheet.create({
     image: {
         width: "85%",
         marginTop: 80,
-        marginBottom:40,
+        marginBottom:125,
     }
 
 
@@ -97,12 +97,9 @@ const bodyStyles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         width: "90%",
-        marginBottom: 10,
+        marginBottom: 30,
     },
-    image: {
-        width: "100%",
-        backgroundColor: "#0553",
-    }, Subtext: {
+    Subtext: {
         marginTop: 10,
         fontFamily: "Inter_400Regular",
         textAlign: "center",

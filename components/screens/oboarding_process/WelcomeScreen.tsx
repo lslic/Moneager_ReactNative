@@ -25,11 +25,7 @@ export function WelcomeScreen ({navigation}) {
                     name={false}
                 />
             </View>
-            <View style={footerStyles.container}>
-                <Text style={footerStyles.textHasAccount}>
-                    Already have an account? Log in
-                </Text>
-            </View>
+
 
         </View>
     );
@@ -44,10 +40,10 @@ const styles = StyleSheet.create({
         alignItems: "center", // Updated to use space-between
     },
     image: {
-        width: "80%",
+        width: "95%",
         height: "80%",
         marginTop: -50,
-        marginBottom: 50,
+        marginBottom: 100,
     }
 
 
@@ -69,20 +65,37 @@ const bodyStyles = StyleSheet.create({
 });
 const footerStyles = StyleSheet.create({
     container: {
-        justifyContent: "flex-end",
-        alignSelf: "stretch",
-        marginBottom: 24, // Adjust the marginBottom value as desired
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 24,
+        width: "95%",
     },
-    textTos: {
-        textFontFamily: "Inter_400Regular",
-        color: NeutralColors.NC_700,
-        textAlign: "center",
+    footerContainer: {
+        alignItems: "center",
+    },
+    tasText: {
+        flexDirection: "row",
+        alignItems: "center",
+        justifyContent: "center", // Added this line
+        marginBottom: 12,
     },
     textHasAccount: {
-        textFontFamily: "Inter_500Medium",
+        fontFamily: "Inter_500Medium",
         color: NeutralColors.NC_1200,
         fontWeight: "500",
+    },
+    loginText: {
+        fontFamily: "Inter_500Medium",
+        color: NeutralColors.NC_1200,
+        textDecorationLine: "underline",
+        marginLeft: 4,
+    },
+    textTos: {
+        fontFamily: "Inter_400Regular",
+        color: NeutralColors.NC_700,
         textAlign: "center",
-        marginBottom: 12, // Adjust the marginBottom value as desired
+        marginBottom: 12,
     },
 });
+

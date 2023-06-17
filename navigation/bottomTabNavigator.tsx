@@ -4,7 +4,7 @@ import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {SettingsScreen} from "../components/screens/SettingsScreen";
 import {ProfileScreen} from "../components/screens/ProfileScreen";
 import {MainScreen} from "../components/screens/MainScreen";
-import {HomeScreen} from "../components/screens/HomeScreen";
+// import {HomeScreen} from "../components/screens/HomeScreen";
 import {TransactionsScreen} from "../components/screens/TransactionsScreen";
 import {useColorScheme} from 'react-native';
 import scheme from "react-native-ui-lib/src/style/scheme";
@@ -18,7 +18,7 @@ export function BottomNavigator() {
     return (
         <NavigationContainer theme={scheme.getSchemeType() === 'dark' ? DarkTheme : DefaultTheme}>
             <bottomTabNavigator.Navigator screenOptions={{headerShown: false,}}>
-                <bottomTabNavigator.Screen name="Home" component={HomeScreen} />
+                {/*<bottomTabNavigator.Screen name="Home" component={HomeScreen} />*/}
                 <bottomTabNavigator.Screen name="Profile" component={ProfileScreen} />
                 <bottomTabNavigator.Screen name="Main" component={MainScreen} />
                 <bottomTabNavigator.Screen name="Transactions" component={TransactionsScreen} />

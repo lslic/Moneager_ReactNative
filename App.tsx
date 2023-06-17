@@ -7,8 +7,9 @@ import {Inter_400Regular, Inter_500Medium, useFonts} from "@expo-google-fonts/in
 import {NanumBrushScript_400Regular} from "@expo-google-fonts/nanum-brush-script";
 import * as SplashScreen from 'expo-splash-screen';
 import {AccountCreationNavigator} from "./navigation/accountCreationStackNavigator";
-//
-// SplashScreen.preventAutoHideAsync();
+
+
+
 
 export default function App() {
   let [fontsLoaded] = useFonts({
@@ -16,12 +17,6 @@ export default function App() {
     Inter_400Regular,
     NanumBrushScript_400Regular
   });
-  //
-  // const onLayoutRootView = useCallback(async () => {
-  //   if (fontsLoaded) {
-  //     await SplashScreen.hideAsync();
-  //   }
-  // }, [fontsLoaded]);
 
   if (!fontsLoaded) {
     return null;
@@ -29,8 +24,8 @@ export default function App() {
 
 
   return ( <SafeAreaView style={GlobalStyles.droidSafeArea}>
-    {/*<AccountCreationNavigator/>*/}
-    <BottomNavigator/>
+    <AccountCreationNavigator/>
+    {/*<BottomNavigator/>*/}
   </SafeAreaView>);
 }
 

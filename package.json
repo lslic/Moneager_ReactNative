@@ -9,6 +9,7 @@
   },
   "dependencies": {
     "@expo-google-fonts/inter": "^0.2.3",
+    "@expo-google-fonts/lora": "^0.2.3",
     "@expo-google-fonts/nanum-brush-script": "^0.2.3",
     "@expo/image-utils": "^0.3.23",
     "@expo/webpack-config": "^0.17.2",

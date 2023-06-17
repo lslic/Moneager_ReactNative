@@ -3,6 +3,7 @@ import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { CustomButton } from "../ui/buttons";
 import { colors, NeutralColors } from "../../constants/colors";
 import { Image } from "expo-image";
+import {Onboarding1} from "./oboarding_process/Onboarding/Oboarding1Screen";
 
 const path = 'assets/images/logo.png';
 
@@ -28,16 +29,14 @@ export function RegisterPage({navigation}) {
                             <CustomButton
                                 unfilled
                                 title={'Sign up with Google'}
-                                onPress={() => {
-                                    console.log('button1');
+                                onPress={() => { navigation.navigate('Onboarding1')
                                 }}
                                 name={'google'}
                             />
                             <CustomButton
                                 unfilled
                                 title={'Sign up with Apple'}
-                                onPress={() => {
-                                    console.log('button2');
+                                onPress={() => { navigation.navigate('Onboarding1')
                                 }}
                                 name={'apple'}
                             />
@@ -58,8 +57,7 @@ export function RegisterPage({navigation}) {
                                 <CustomButton
                                     unfilled={false}
                                     title={'Sign Up'}
-                                    onPress={() => {
-                                        console.log('button1');
+                                    onPress={() => { navigation.navigate('Onboarding1')
                                     }}
                                     name={false}
                                 />
@@ -116,7 +114,7 @@ const headerStyles = StyleSheet.create({
         fontFamily: 'NanumBrushScript_400Regular',
         fontSize: 24,
         textAlign: 'center',
-        margin: 12,
+        margin: 2,
     },
     text: {
         fontFamily: 'Inter_400Regular',

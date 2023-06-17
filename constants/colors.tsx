@@ -21,6 +21,7 @@ export const NeutralColors = {
 	NC_1200:   '#18171F',
 	NC_900:    '#49465F',
 	NC_700:    '#A4A0C0',
+	NC_600:    '#797A7B',
 	NC_300:    '#D2D3D3',
 	NC_D_GRAY: '#7B7B7B',
 	NC_GRAY:   '#B6B6B6',

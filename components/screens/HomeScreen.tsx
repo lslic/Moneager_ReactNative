@@ -69,7 +69,13 @@ export function RegisterPage({navigation}) {
                         <Text style={footerStyles.textTos}>
                             By continuing you accept our standard terms and conditions and our privacy policy.
                         </Text>
-                        <Text style={footerStyles.textHasAccount}>Already have an account? Log in</Text>
+                        <View style={footerStyles.tasText}>
+                            <Text style={footerStyles.textHasAccount}>Already have an account? </Text>
+                            <Text style={footerStyles.loginText} onPress={() => console.log("Log in pressed")}>
+                                Log in
+                            </Text>
+                        </View>
+
                     </View>
                 </View>
             </ScrollView>
@@ -155,18 +161,34 @@ const bodyStyles = StyleSheet.create({
 
 const footerStyles = StyleSheet.create({
     container: {
-        justifyContent: 'flex-end',
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginBottom: 24,
+        width: "95%",
     },
-    textTos: {
-        fontFamily: 'Inter_400Regular',
-        color: NeutralColors.NC_700,
-        textAlign: 'center',
+    tasText: {
+        flexDirection: "row",
+        alignItems: "center",
         marginBottom: 12,
+        justifyContent: "center",
+
     },
     textHasAccount: {
-        fontFamily: 'Inter_500Medium',
+        fontFamily: "Inter_500Medium",
         color: NeutralColors.NC_1200,
-        fontWeight: '500',
-        textAlign: 'center',
+        fontWeight: "500",
+    },
+    loginText: {
+        fontFamily: "Inter_500Medium",
+        color: NeutralColors.NC_1200,
+        textDecorationLine: "underline",
+        marginLeft: 4,
+    },
+    textTos: {
+        fontFamily: "Inter_400Regular",
+        color: NeutralColors.NC_700,
+        textAlign: "center",
+        marginBottom: 12,
     },
 });

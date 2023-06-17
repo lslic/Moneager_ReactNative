@@ -4,29 +4,29 @@ import {colors, NeutralColors} from "../../../../constants/colors";
 import {CustomButton} from "../../../ui/buttons";
 import {useNavigation} from "@react-navigation/native";
 
-const imageOnbd1 = require("../../../../assets/images/ilustrations/pig_money.png");
+const imageOnbd2 = require("../../../../assets/images/ilustrations/gifts.png");
 
 
 
 // @ts-ignore
-export function Onboarding1 ({navigation}) {
+export function Onboarding2 ({navigation}) {
     return (
         <View style={styles.container}>
             <View style={headerStyles.container}>
-                <Text style={headerStyles.text}>Step 1 of 4</Text>
+                <Text style={headerStyles.text}>Step 2 of 4</Text>
                 <Text style={headerStyles.textS}  onPress={() => navigation.goBack()}>Back</Text>
             </View>
 
             <Image
                 style={styles.image}
-                source={imageOnbd1}
+                source={imageOnbd2}
                 resizeMode="contain"
             />
 
 
             <View style={bodyStyles.container}>
-                <Text style={bodyStyles.HeaderText}>Money Saver</Text>
-                <Text style={bodyStyles.Subtext}> Monegear is helping you to better use your money.</Text>
+                <Text style={bodyStyles.HeaderText}>Be prepared for birthdays</Text>
+                <Text style={bodyStyles.Subtext}> Moneager is helping you to save for special occasions.</Text>
 
             </View>
 
@@ -34,7 +34,7 @@ export function Onboarding1 ({navigation}) {
                 <CustomButton
                     unfilled={false}
                     title={'Next'}
-                    onPress={() => navigation.navigate('Onboarding2')}
+                    onPress={() => navigation.navigate('RegisterPage')}
                     name={false}
                 />
             </View>
@@ -53,8 +53,9 @@ const styles = StyleSheet.create({
         alignItems: "center",
     },
     image: {
-        width: "85%",
-        marginTop: 20,
+        width: "95%",
+        marginTop: 80,
+        marginBottom:215,
     }
 
 
@@ -96,7 +97,7 @@ const bodyStyles = StyleSheet.create({
         alignItems: "center",
         justifyContent: "center",
         width: "90%",
-        marginBottom: 110,
+        marginBottom: 10,
     },
     image: {
         width: "100%",
@@ -110,6 +111,7 @@ const bodyStyles = StyleSheet.create({
     },
     HeaderText: {
         marginTop: 30,
+        textAlign: "center",
         fontFamily: "Lora_600SemiBold",
         fontSize: 28,
         color: NeutralColors.NC_1200,

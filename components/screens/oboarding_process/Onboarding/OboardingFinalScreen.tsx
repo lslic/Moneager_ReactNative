@@ -1,8 +1,7 @@
 import * as React from "react";
-import { StyleSheet, Text, TextInput, Image, View } from "react-native";
+import { StyleSheet, Text, Image, View } from "react-native";
 import { colors, NeutralColors } from "../../../../constants/colors";
 import { CustomButton } from "../../../ui/buttons";
-import { useNavigation } from "@react-navigation/native";
 
 const imageOnbdFinal = require("../../../../assets/images/ilustrations/img.png");
 
@@ -28,7 +27,7 @@ export function OnboardingFinal({ navigation }) {
                 <CustomButton
                     unfilled={false}
                     title={"Next"}
-                    onPress={() => navigation.navigate("RegisterPage")}
+                    onPress={() => navigation.navigate("Tab")}
                     name={false}
                 />
             </View>

@@ -1,53 +1,28 @@
+
 import {Text, View, StyleSheet} from "react-native";
-import * as React from "react";
-import {FAB, List, Modal, Portal} from 'react-native-paper';
-import {useState} from "react";
+import React, {useState} from "react";
+import {FAB} from 'react-native-paper';
 // @ts-ignore
-import { FloatingMenu, FloatingButton } from 'react-native-floating-action-menu';
+import {FloatingMenu, FloatingButton} from 'react-native-floating-action-menu';
 import {MaterialCommunityIcons} from "@expo/vector-icons";
+import {
+    CircleMenu,
+    CircleMenuItem,
+    TooltipPlacement,
+} from "react-circular-menu";;
 
 
+export const TransactionsScreen = () => {
 
-interface IState {
-    open: boolean;
-}
 
-export const TransactionsScreen: React.FC = () => {
-    const MaterialMenu: any = require('react-native-material-menu').default;
-    const MenuItem: any = require('react-native-material-menu').MenuItem;
+    const [state, setState] = React.useState({ open: false });
 
-    const [visible, setVisible] = useState<boolean>(false);
-
-    const [isOpen, setIsOpen] = useState(false);
-
-    const onMenuToggle = (isOpen: boolean) => {
-        setIsOpen(isOpen);
-    };
-    const showModal = () => setVisible(true);
-
-    const hideModal = () => setVisible(false);
-
-    let _menu: any = null;
-    const [state, setState] = React.useState<IState>({ open: false });
-
-    const onStateChange = ({ open }: IState) => setState({ open });
+    // @ts-ignore
+    const onStateChange = ({ open }) => setState({ open });
 
     const { open } = state;
 
-    const setMenuRef = (ref: any) => {
-        _menu = ref;
-    };
 
-    const hideMenu = () => {
-        _menu?.hide();
-    };
-
-    const showMenu = () => {
-        _menu?.show();
-    };
-
-    // @ts-ignore
-    // @ts-ignore
     return (
         <View style={styles.container}>
             <Text>Transactions!</Text>
@@ -68,33 +43,6 @@ export const TransactionsScreen: React.FC = () => {
                 }}
                 visible
             />
-            <FloatingMenu
-                buttonSize={56}
-                overlayColor={'rgba(0, 0, 0, 0.2)'}
-                isOpen={isOpen}
-                fromDirection="left"
-                toDirection="up"
-                onMenuToggle={onMenuToggle}
-                buttonIcon={<MaterialCommunityIcons name="key" size={24} color="white" />}
-                fabIcon={<MaterialCommunityIcons name="plus" size={24} color="white" />}
-                fabIconOpen={<MaterialCommunityIcons name="key" size={24} color="white" />}
-            >
-                <FloatingButton
-                    text="Action 1"
-                    icon={<MaterialCommunityIcons name="home" size={24} color="white" />}
-                    onPress={() => console.log('Action 1')}
-                />
-                <FloatingButton
-                    text="Action 2"
-                    icon={<MaterialCommunityIcons name="star" size={24} color="white" />}
-                    onPress={() => console.log('Action 2')}
-                />
-                <FloatingButton
-                    text="Action 3"
-                    icon={<MaterialCommunityIcons name="key" size={24} color="white" />}
-                    onPress={() => console.log('Action 3')}
-                />
-            </FloatingMenu>
         </View>
     );
 }
@@ -112,3 +60,5 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
 });
+
+export default TransactionsScreen;

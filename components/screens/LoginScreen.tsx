@@ -1,30 +1,32 @@
 import * as React from "react";
-import {Image, ScrollView, StyleSheet, Text, TextInput, View} from "react-native";
+import {Image, ScrollView, StyleSheet, Text, TextInput, Alert, Modal, View, Button} from "react-native";
 
 import {useState} from "react";
-import {useMutation} from "@apollo/client";
+import {ApolloError, useMutation} from "@apollo/client";
 
 import {jwt, LOGIN_MUTATION} from "../../constants/grafql/jwt";
 import {CustomButton} from "../ui/buttons";
 import {colors, NeutralColors} from "../../constants/colors";
+import {handleApolloError, useErrorModal} from "../../services/ErrorHandler/ApolloErrorHandler";
 
 
 const imagePath = require('./../../assets/images/logo_nobackground.png');
 
 // @ts-ignore
-export function LoginPage({navigation}) {
-
+export function LoginPage({navigation, visible, message, onClose }) {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
-
+    const { popupVisible, popupMessage, closeModal, showErrorModal } = useErrorModal();
     const [login] = useMutation(LOGIN_MUTATION);
 
-    const handleLoginSubmit = () => {
-        login({ variables: { input: { identifier: email, password: password }}}).then((res) => {
+    const handleLoginSubmit = async () => {
+        try {
+            const res = await login({ variables: { input: { identifier: email, password: password }}});
             jwt(res.data.login.jwt);
-        })
+        } catch (error) {
+            handleApolloError(error, showErrorModal);
+        }
     };
-
 
     return (
         <View style={styles.container}>
@@ -44,34 +46,45 @@ export function LoginPage({navigation}) {
                             <CustomButton
                                 unfilled
                                 title={'Log In with Google'}
-                                onPress={() => { navigation.navigate('Onboarding1')
-                                }}
+                                onPress={() => { navigation.navigate('Onboarding1') }}
                                 name={'google'}
                             />
                             <CustomButton
                                 unfilled
                                 title={'Log In with Apple'}
-                                onPress={() => { navigation.navigate('Onboarding1')
-                                }}
+                                onPress={() => { navigation.navigate('Onboarding1') }}
                                 name={'apple'}
                             />
                         </View>
-
-
 
                         <View style={bodyStyles.container}>
                             <Text style={bodyStyles.textSimple}>─────── or Log in with Email ───────</Text>
                         </View>
 
                         <View style={bodyStyles.container}>
-                            <TextInput autoCapitalize='none' autoCorrect={false} style={bodyStyles.textInput} placeholder={'Your Name'} onChangeText={text => setEmail(text)}/>
-                            <TextInput autoCapitalize='none' autoCorrect={false} style={bodyStyles.textInput} placeholder={'Password'} secureTextEntry={true} onChangeText={text => setPassword(text)}/>
+                            <TextInput
+                                autoCapitalize='none'
+                                autoCorrect={false}
+                                style={bodyStyles.textInput}
+                                placeholder={'Your Name'}
+                                onChangeText={text => setEmail(text)}
+                            />
+                            <TextInput
+                                autoCapitalize='none'
+                                autoCorrect={false}
+                                style={bodyStyles.textInput}
+                                placeholder={'Password'}
+                                secureTextEntry={true}
+                                onChangeText={text => setPassword(text)}
+                            />
 
                             <View style={bodyStyles.container}>
                                 <CustomButton
                                     unfilled={false}
                                     title={'Log In'}
-                                    onPress={handleLoginSubmit} name={undefined}/>
+                                    onPress={handleLoginSubmit}
+                                    name={undefined}
+                                />
                             </View>
                         </View>
                     </View>
@@ -86,17 +99,45 @@ export function LoginPage({navigation}) {
                                 Sign Up
                             </Text>
                         </View>
-
                     </View>
                 </View>
             </ScrollView>
+
+            {/* Modal */}
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={popupVisible}
+                onRequestClose={closeModal}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text>{popupMessage}</Text>
+                        <Button title="Close" onPress={closeModal} />
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
 
+
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#fff",
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+    },
+    modalContent: {
+        backgroundColor: 'white',
+        padding: 16,
+        margin: 16,
+        borderRadius: 8,
+        alignItems: 'center',
     },
     scrollContainer: {
         flexGrow: 1,

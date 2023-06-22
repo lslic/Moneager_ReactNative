@@ -43,6 +43,7 @@
     "react-native-floating-action-menu": "^1.2.4",
     "react-native-gesture-handler": "~2.8.0",
     "react-native-material-menu": "^2.0.0",
+    "react-native-modal": "^13.0.1",
     "react-native-pager-view": "6.0.1",
     "react-native-paper": "^5.8.0",
     "react-native-reanimated": "~2.12.0",

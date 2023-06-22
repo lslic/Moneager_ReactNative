@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import {StyleSheet, View} from 'react-native';
 import GlobalStyles from './components/shared/GlobalStyle';
 import {AccountCreationNavigator} from "./navigation/accountCreationStackNavigator";
@@ -9,12 +9,16 @@ import {jwt} from "./constants/grafql/jwt";
 import {TopNavigator,} from "./navigation/skect_bottomTabNavigator";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {SafeAreaProvider} from "react-native-safe-area-context";
-import {fontLoader} from "./services/fontLoader";
+import {fontLoader, useCustomResourceLoading} from "./services/fontLoader";
 import {LoginPage} from "./components/screens/LoginScreen";
 import {Inter_400Regular, Inter_500Medium, useFonts} from "@expo-google-fonts/inter";
 import {NanumBrushScript_400Regular} from "@expo-google-fonts/nanum-brush-script";
 import {Lora_400Regular, Lora_600SemiBold} from "@expo-google-fonts/lora";
+import * as SplashScreen from 'expo-splash-screen';
+import AppLoading from "expo-app-loading";
+import {wait} from "@apollo/client/testing";
 
+SplashScreen.preventAutoHideAsync();
 
 //Backend Link
 const authLink = setContext((_, {headers}) => {
@@ -69,32 +73,23 @@ export const Navigation = () => {
 
 
 export default function App() {
-    let [fontsLoaded] = useFonts({
-        NanumBrushScript_400Regular,
-        Inter_500Medium,
-        Inter_400Regular,
-        Lora_400Regular,
-        Lora_600SemiBold
-    });
+    const isLoading = useCustomResourceLoading();
 
-
-
-
-    if (!fontsLoaded) {
-        console.error("Font could not be loaded.")
+    if (isLoading) {
         return null;
     }
 
 
-
-    return <ApolloProvider client={client}>
-        <SafeAreaProvider style={GlobalStyles.droidSafeArea}>
-            <Navigation/>
-        </SafeAreaProvider>
-    </ApolloProvider>
-
-
+    return (
+        <ApolloProvider client={client}>
+            <SafeAreaProvider style={GlobalStyles.droidSafeArea}>
+                <Navigation />
+            </SafeAreaProvider>
+        </ApolloProvider>
+    );
 }
+
+
 
 const styles = StyleSheet.create({
     container: {

@@ -1,20 +1,42 @@
 import {Inter_400Regular, Inter_500Medium, useFonts} from "@expo-google-fonts/inter";
 import {NanumBrushScript_400Regular} from "@expo-google-fonts/nanum-brush-script";
 import {Lora_400Regular, Lora_600SemiBold} from "@expo-google-fonts/lora";
+import AppLoading from 'expo-app-loading';
+import {useEffect, useState} from "react";
+import * as SplashScreen from "expo-splash-screen";
 
-export function fontLoader() {
+// Custom Fonts Component
+// Custom Fonts Component
+export const useCustomResourceLoading = () => {
     let [fontsLoaded] = useFonts({
-        NanumBrushScript_400Regular,
-        Inter_500Medium,
         Inter_400Regular,
+        Inter_500Medium,
+        NanumBrushScript_400Regular,
         Lora_400Regular,
-        Lora_600SemiBold
+        Lora_600SemiBold,
     });
 
-    if (!fontsLoaded) {
-        // console.error("Font could not be loaded.")
-        return null;
-    }
+    const [appIsReady, setAppIsReady] = useState(false);
 
-    return fontsLoaded;
-}
+    useEffect(() => {
+        async function prepare() {
+            try {
+                await SplashScreen.preventAutoHideAsync();
+            } catch (err) {
+                console.warn(err);
+            } finally {
+                setAppIsReady(true);
+            }
+        }
+
+        prepare();
+    }, []);
+
+    useEffect(() => {
+        if (fontsLoaded && appIsReady) {
+            SplashScreen.hideAsync();
+        }
+    }, [fontsLoaded, appIsReady]);
+
+    return (!fontsLoaded || !appIsReady);
+};

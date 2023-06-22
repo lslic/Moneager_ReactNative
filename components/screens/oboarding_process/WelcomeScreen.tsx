@@ -3,12 +3,22 @@ import { StyleSheet, Text, TextInput, Image, View } from "react-native";
 import { NeutralColors } from "../../../constants/colors";
 import {CustomButton} from "../../ui/buttons";
 import {useNavigation} from "@react-navigation/native";
+import {useState} from "react";
 
 const imagePath = require("../../../assets/images/logo_nobackground.png");
 
 
 // @ts-ignore
 export function WelcomeScreen ({navigation}) {
+
+    const handleLogIn = () => {
+        navigation.navigate('LogIn');
+    };
+
+    const handleSignUp = () => {
+        navigation.navigate('SignUp');
+    };
+
     return (
         <View style={styles.container}>
             <Image
@@ -25,8 +35,6 @@ export function WelcomeScreen ({navigation}) {
                     name={false}
                 />
             </View>
-
-
         </View>
     );
 }

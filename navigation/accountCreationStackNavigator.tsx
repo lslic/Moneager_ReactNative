@@ -13,7 +13,6 @@ const startStackNavigator = createNativeStackNavigator();
 
 export function AccountCreationNavigator() {
     return (
-        <NavigationContainer >
             <startStackNavigator.Navigator screenOptions={{headerShown: false}} >
                 <startStackNavigator.Screen name="Welcome" component={WelcomeScreen}/>
                 <startStackNavigator.Screen name="RegisterPage" component={RegisterPage} />
@@ -24,6 +23,5 @@ export function AccountCreationNavigator() {
                 <startStackNavigator.Screen name="OnboardingFinal" component={OnboardingFinal} />
                 <startStackNavigator.Screen name="Tab" component={BottomNavigator} />
             </startStackNavigator.Navigator>
-        </NavigationContainer>
             );
 }

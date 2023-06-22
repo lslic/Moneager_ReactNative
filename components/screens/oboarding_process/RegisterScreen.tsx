@@ -3,12 +3,32 @@ import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
 import { CustomButton } from "../../ui/buttons";
 import { colors, NeutralColors } from "../../../constants/colors"
 import { Image } from "expo-image";
+import {useState} from "react";
+import {useMutation} from "@apollo/client";
+import {jwt, SIGNUP_MUTATION} from "../../../constants/grafql/jwt";
 
 
 const path = 'assets/images/logo.png';
 
 // @ts-ignore
 export function RegisterPage({navigation}) {
+
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const [user, setUser] = useState('');
+
+    const [signup] = useMutation(SIGNUP_MUTATION);
+
+    const handleRegisterSubmit = () => {
+        signup({ variables: { input: { username: user, email: email, password: password }}}).then((res) => {
+            jwt(res.data.register.jwt);
+            console.log(res.data.register.jwt)
+        }) ;
+    };
+
+
+
+
 
     return (
         <View style={styles.container}>
@@ -49,18 +69,15 @@ export function RegisterPage({navigation}) {
                         </View>
 
                         <View style={bodyStyles.container}>
-                            <TextInput style={bodyStyles.textInput} placeholder={'Your Name'} />
-                            <TextInput style={bodyStyles.textInput} placeholder={'YourEmail@mail.com'} />
-                            <TextInput style={bodyStyles.textInput} placeholder={'Password'} />
-                            <TextInput style={bodyStyles.textInput} placeholder={'Password Confirmation'} />
+                            <TextInput style={bodyStyles.textInput} placeholder={'Your Name'} onChangeText={text => setUser(text)}/>
+                            <TextInput style={bodyStyles.textInput} placeholder={'YourEmail@mail.com'} onChangeText={text => setEmail(text)}/>
+                            <TextInput style={bodyStyles.textInput} placeholder={'Password'} secureTextEntry={true} onChangeText={text => setPassword(text)}/>
+                            <TextInput style={bodyStyles.textInput} placeholder={'Password Confirmation'} secureTextEntry={true} onChangeText={text => setPassword(text)} />
                             <View style={bodyStyles.container}>
                                 <CustomButton
                                     unfilled={false}
                                     title={'Sign Up'}
-                                    onPress={() => { navigation.navigate('Onboarding1')
-                                    }}
-                                    name={false}
-                                />
+                                    onPress={handleRegisterSubmit} name={undefined}/>
                             </View>
                         </View>
                     </View>

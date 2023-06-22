@@ -1,14 +1,13 @@
 import * as React from 'react';
-import { StyleSheet, View } from 'react-native';
-import { NavigationContainer, DefaultTheme, DarkTheme } from '@react-navigation/native';
-import { createMaterialTopTabNavigator } from '@react-navigation/material-top-tabs';
-import { ProfileScreen } from '../components/screens/ProfileScreen';
-import { MainScreen } from '../components/screens/MainScreen';
-import { TransactionsScreen } from '../components/screens/TransactionsScreen';
-import { SettingsScreen } from '../components/screens/SettingsScreen';
-import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useColorScheme } from 'react-native';
-import { NeutralColors, PrimaryColors } from "../constants/colors";
+import {SafeAreaView, StyleSheet, View, useColorScheme} from 'react-native';
+import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
+import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+import {ProfileScreen} from '../components/screens/ProfileScreen';
+import {MainScreen} from '../components/screens/MainScreen';
+import {TransactionsScreen} from '../components/screens/TransactionsScreen';
+import {SettingsScreen} from '../components/screens/SettingsScreen';
+import {MaterialCommunityIcons} from '@expo/vector-icons';
+import { PrimaryColors } from "../constants/colors";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -86,11 +85,12 @@ export function BottomNavigator() {
                     options={{
                         tabBarIcon: ({ color}) => (
                             <SettingsIcon color={color} size={20}  />
-                        ),
-                    }}
+                        )                    }}
                 />
             </Tab.Navigator>
         </View>
+
+
     );
 }
 

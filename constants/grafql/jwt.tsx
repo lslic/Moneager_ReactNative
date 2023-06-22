@@ -10,7 +10,7 @@ export const LOGIN_MUTATION = gql`mutation Login($input: UsersPermissionsLoginIn
       username
     }
   }
-}`
+}`;
 
 export const SIGNUP_MUTATION = gql`mutation Register($input: UsersPermissionsRegisterInput!) {
   register(input: $input) {

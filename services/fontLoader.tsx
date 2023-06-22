@@ -10,5 +10,11 @@ export function fontLoader() {
         Lora_400Regular,
         Lora_600SemiBold
     });
+
+    if (!fontsLoaded) {
+        // console.error("Font could not be loaded.")
+        return null;
+    }
+
     return fontsLoaded;
 }

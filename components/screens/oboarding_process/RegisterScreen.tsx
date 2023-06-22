@@ -8,7 +8,6 @@ import {useMutation} from "@apollo/client";
 import {jwt, SIGNUP_MUTATION} from "../../../constants/grafql/jwt";
 
 
-// const path = require('assets/images/logo.png');
 
 // @ts-ignore
 export function RegisterPage({navigation}) {

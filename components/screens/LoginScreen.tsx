@@ -15,15 +15,17 @@ const imagePath = require('./../../assets/images/logo_nobackground.png');
 export function LoginPage({navigation}) {
 
     const [password, setPassword] = useState('');
-    const [username, setUser] = useState('');
+    const [email, setEmail] = useState('');
 
     const [login] = useMutation(LOGIN_MUTATION);
 
-    let handleLoginSubmit: () => void = () => {
-        login({variables: {input: {identifier: username, password: password}}}).then((res) => {
+    const handleLoginSubmit = () => {
+        login({ variables: { input: { identifier: email, password: password }}}).then((res) => {
             jwt(res.data.login.jwt);
         })
     };
+
+
     return (
         <View style={styles.container}>
             <Image
@@ -62,8 +64,8 @@ export function LoginPage({navigation}) {
                         </View>
 
                         <View style={bodyStyles.container}>
-                            <TextInput style={bodyStyles.textInput} placeholder={'Your Name'} onChangeText={text => setUser(text)}/>
-                            <TextInput style={bodyStyles.textInput} placeholder={'Password'} secureTextEntry={true} onChangeText={text => setPassword(text)}/>
+                            <TextInput autoCapitalize='none' autoCorrect={false} style={bodyStyles.textInput} placeholder={'Your Name'} onChangeText={text => setEmail(text)}/>
+                            <TextInput autoCapitalize='none' autoCorrect={false} style={bodyStyles.textInput} placeholder={'Password'} secureTextEntry={true} onChangeText={text => setPassword(text)}/>
 
                             <View style={bodyStyles.container}>
                                 <CustomButton
@@ -150,7 +152,6 @@ const headerStyles = StyleSheet.create({
         marginBottom: 2,
     },
 });
-
 
 const bodyStyles = StyleSheet.create({
     container: {

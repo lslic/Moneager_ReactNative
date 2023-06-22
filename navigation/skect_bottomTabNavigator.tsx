@@ -36,7 +36,7 @@ const SettingsIcon: React.FC<IconProps> = ({ color, size }) => (
     <MaterialCommunityIcons name="cog" size={size} color={color} />
 );
 
-export function BottomNavigator() {
+export function TopNavigator() {
     const isDarkMode = useColorScheme() === 'dark';
     const theme = isDarkMode ? DarkTheme : DefaultTheme;
 

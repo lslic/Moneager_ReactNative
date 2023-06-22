@@ -6,11 +6,14 @@ import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache, useReactive
 import {setContext} from "@apollo/client/link/context";
 import {NavigationContainer} from "@react-navigation/native";
 import {jwt} from "./constants/grafql/jwt";
-import {BottomNavigator,} from "./navigation/skect_bottomTabNavigator";
+import {TopNavigator,} from "./navigation/skect_bottomTabNavigator";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {SafeAreaProvider} from "react-native-safe-area-context";
 import {fontLoader} from "./services/fontLoader";
 import {LoginPage} from "./components/screens/LoginScreen";
+import {Inter_400Regular, Inter_500Medium, useFonts} from "@expo-google-fonts/inter";
+import {NanumBrushScript_400Regular} from "@expo-google-fonts/nanum-brush-script";
+import {Lora_400Regular, Lora_600SemiBold} from "@expo-google-fonts/lora";
 
 
 //Backend Link
@@ -25,7 +28,7 @@ const authLink = setContext((_, {headers}) => {
 });
 
 const httpLink = createHttpLink({
-    uri: 'http://localhost:1337/graphql',
+    uri: 'http://192.168.1.155:1337/graphql',
 });
 
 const client = new ApolloClient({
@@ -66,11 +69,23 @@ export const Navigation = () => {
 
 
 export default function App() {
-    let fontsLoaded = fontLoader()
+    let [fontsLoaded] = useFonts({
+        NanumBrushScript_400Regular,
+        Inter_500Medium,
+        Inter_400Regular,
+        Lora_400Regular,
+        Lora_600SemiBold
+    });
+
+
+
 
     if (!fontsLoaded) {
+        console.error("Font could not be loaded.")
         return null;
     }
+
+
 
     return <ApolloProvider client={client}>
         <SafeAreaProvider style={GlobalStyles.droidSafeArea}>

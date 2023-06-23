@@ -61,3 +61,34 @@ export const CREATE_TRANSACTION_MUTATION = gql`
     }
   }
 `;
+
+const GET_TRANSACTION_ENUMS_QUERY = gql`
+  query GetTransactionEnums {
+    categoryEnums: __type(name: "ENUM_TRANSACTION_CATEGORY") {
+      enumValues {
+        name
+      }
+    }
+    typeEnums: __type(name: "ENUM_TRANSACTION_TYPE") {
+      enumValues {
+        name
+      }
+    }
+  }
+`;
+
+const CREATE_TRANSACTION_MUTATION = gql`
+  mutation CreateTransaction($data: TransactionInput!) {
+    createTransaction(data: $data) {
+      data {
+        attributes {
+          amount
+          category
+          name
+          type
+        }
+        id
+      }
+    }
+  }
+`;

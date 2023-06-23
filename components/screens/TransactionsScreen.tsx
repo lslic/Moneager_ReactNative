@@ -3,37 +3,9 @@ import React, { useState } from 'react';
 import { FAB } from 'react-native-paper';
 import RNPickerSelect from 'react-native-picker-select';
 import { useQuery, gql, useMutation } from '@apollo/client';
+import {CREATE_TRANSACTION_MUTATION, GET_TRANSACTION_ENUMS_QUERY} from "../../constants/grafql/jwt";
 
-const GET_TRANSACTION_ENUMS_QUERY = gql`
-query GetTransactionEnums {
-    categoryEnums: __type(name: "ENUM_TRANSACTION_CATEGORY") {
-        enumValues {
-            name
-        }
-    }
-    typeEnums: __type(name: "ENUM_TRANSACTION_TYPE") {
-        enumValues {
-            name
-        }
-    }
-}
-`;
 
-const CREATE_TRANSACTION_MUTATION = gql`
-mutation CreateTransaction($data: TransactionInput!) {
-    createTransaction(data: $data) {
-        data {
-            attributes {
-                amount
-                category
-                name
-                type
-            }
-            id
-        }
-    }
-}
-`;
 
 export const TransactionsScreen = () => {
   const [open, setOpen] = useState(false);

@@ -1,9 +1,17 @@
-import { Text, View, StyleSheet, TextInput } from 'react-native';
+import {Text, View, StyleSheet, TextInput, Button} from 'react-native';
 import React, { useState } from 'react';
-import { FAB } from 'react-native-paper';
+
 import RNPickerSelect from 'react-native-picker-select';
-import { useQuery, gql, useMutation } from '@apollo/client';
-import {CREATE_TRANSACTION_MUTATION, GET_TRANSACTION_ENUMS_QUERY} from "../../constants/grafql/jwt";
+import { useQuery, useMutation } from '@apollo/client';
+import {
+  CREATE_TRANSACTION_MUTATION,
+  GET_TRANSACTION_ENUMS_QUERY,
+  GET_USER_WALLETS_QUERY, GET_WALLET_BALANCE_QUERY
+} from "../../constants/grafql/Transaction/graphql";
+import {NeutralColors} from "../../constants/colors";
+import object from "react-native-ui-lib/src/style/colorName";
+import {userId} from "../../constants/grafql/jwt";
+
 
 
 
@@ -11,23 +19,33 @@ export const TransactionsScreen = () => {
   const [open, setOpen] = useState(false);
   const [amount, setAmount] = useState('');
   const [category, setCategory] = useState('');
+  const [walletID, setWalletID] = useState(0);
   const [type, setType] = useState('');
   const [name, setName] = useState('');
 
-  const { data, loading, error } = useQuery(GET_TRANSACTION_ENUMS_QUERY);
+  const { data, loading, error  } = useQuery(GET_TRANSACTION_ENUMS_QUERY);
+  const { data : userWallets, loading : userWalletsLoading,error : userWalletsError  } = useQuery(GET_USER_WALLETS_QUERY,
+      {variables: {
+        filters :{
+          user : {
+            id : {
+              eq : userId()
+            }
+          }
+        }
+        }});
   const [createTransaction] = useMutation(CREATE_TRANSACTION_MUTATION);
 
+
   const handleCreateTransaction = () => {
-    createTransaction({
-      variables: {
-        data: {
+    createTransaction({variables:{
+      data: {
           amount: parseFloat(amount),
           category,
           name,
-          type,
-        },
+          wallet : walletID
       },
-    })
+    }})
       .then(() => {
         // Transaction created successfully, perform any necessary actions
         console.log('Transaction created successfully');
@@ -38,16 +56,16 @@ export const TransactionsScreen = () => {
       });
   };
 
-  if (loading) {
+  if (loading || userWalletsLoading) {
     return <Text>Loading...</Text>;
   }
 
-  if (error) {
-    return <Text>Error: {error.message}</Text>;
+  if (error || userWalletsError) {
+    console.log(userWalletsError)
+    return <Text>Error: </Text>;
   }
 
   const categoryEnums = data?.categoryEnums?.enumValues || [];
-  const typeEnums = data?.typeEnums?.enumValues || [];
 
   return (
     <View style={styles.container}>
@@ -81,19 +99,21 @@ export const TransactionsScreen = () => {
         <View style={styles.inputContainer}>
           <Text style={styles.label}>Type</Text>
           <RNPickerSelect
-            items={typeEnums.map((enumValue) => ({
-              label: enumValue.name,
-              value: enumValue.name,
+            items={userWallets.wallets.data.map((enumValue) => ({
+              label: enumValue.attributes.type,
+              value: enumValue.id,
             }))}
-            onValueChange={(value) => setType(value)}
+            onValueChange={(value) => setWalletID(value)}
             style={pickerSelectStyles}
-            value={type}
+            value={walletID}
             placeholder={{
               label: 'Select a type...',
               value: null,
-            }}
+            }}        // Transaction created successfully, perform any necessary actions
+
           />
         </View>
+        <Button title={"create"} onPress={handleCreateTransaction}/>
         <View style={styles.inputContainer}>
           <Text
 
@@ -129,7 +149,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: NeutralColors.NC_D_GRAY,
     borderWidth: 1,
     paddingHorizontal: 10,
   },
@@ -141,16 +161,15 @@ const styles = StyleSheet.create({
 const pickerSelectStyles = StyleSheet.create({
   inputIOS: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: NeutralColors.NC_D_GRAY,
     borderWidth: 1,
     paddingHorizontal: 10,
   },
   inputAndroid: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: NeutralColors.NC_D_GRAY,
     borderWidth: 1,
     paddingHorizontal: 10,
   },
 });
 
-export default TransactionsScreen;

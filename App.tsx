@@ -33,15 +33,16 @@ const httpLink = createHttpLink({
 
 
 //Remember the client Cache
+const Stack = createNativeStackNavigator();
+
+
 const client = new ApolloClient({
     link: authLink.concat(httpLink),
     cache: new InMemoryCache()
 });
 
 
-const Stack = createNativeStackNavigator();
 //Prevent unnecessary redraws
-
 export const AppStack = memo(() => {
     return <Stack.Navigator>
         <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}}/>

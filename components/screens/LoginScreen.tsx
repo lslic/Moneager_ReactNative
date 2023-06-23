@@ -4,7 +4,7 @@ import {Image, ScrollView, StyleSheet, Text, TextInput, Alert, Modal, View, Butt
 import {useState} from "react";
 import {ApolloError, useMutation} from "@apollo/client";
 
-import {jwt, LOGIN_MUTATION} from "../../constants/grafql/jwt";
+import {jwt, LOGIN_MUTATION, userId} from "../../constants/grafql/jwt";
 import {CustomButton} from "../ui/buttons";
 import {colors, NeutralColors, PrimaryColors} from "../../constants/colors";
 import {handleApolloError, useErrorModal} from "../../services/ErrorHandler/ApolloErrorHandler";
@@ -26,6 +26,7 @@ export function LoginScreen({navigation, visible, message, onClose }) {
                 await login({ variables:
                         { input: { identifier: email, password: password }}});
             jwt(res.data.login.jwt);
+            userId(res.data.login.user.id);
         } catch (error) {
             handleApolloError(error, showErrorModal);
             console.log(error)

@@ -4,7 +4,7 @@ import { CustomButton } from "../../ui/buttons";
 import {colors, NeutralColors, PrimaryColors} from "../../../constants/colors"
 import {useState} from "react";
 import {useMutation} from "@apollo/client";
-import {jwt, LOGIN_MUTATION, SIGNUP_MUTATION} from "../../../constants/grafql/jwt";
+import {jwt, LOGIN_MUTATION, SIGNUP_MUTATION, userId} from "../../../constants/grafql/jwt";
 import {handleApolloError, useErrorModal} from "../../../services/ErrorHandler/ApolloErrorHandler";
 
 
@@ -25,6 +25,8 @@ export function RegisterScreen({navigation}) {
             const res =
                 await signup( {variables: { input: { username: user, email: email, password: password }}})
             jwt(res.data.register.jwt);
+            userId(res.data.register.user.id);
+
             await handleLoginSubmit();
         } catch (error) {
             handleApolloError(error, showErrorModal);

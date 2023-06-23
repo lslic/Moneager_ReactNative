@@ -122,7 +122,7 @@ export function RegisterScreen({navigation}) {
             >
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
-                        <Text>{popupMessage}</Text>
+                        <Text style={styles.popupText}>{popupMessage}</Text>
                         <TouchableOpacity
                             onPress={closeModal}
                             style={styles.buttonStyle}
@@ -153,7 +153,6 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
-
     },
     modalContent: {
         backgroundColor: NeutralColors.NC_WHITE,
@@ -180,7 +179,10 @@ const styles = StyleSheet.create({
         justifyContent: "flex-end",
         paddingVertical: 20,
         paddingHorizontal: 16,
-    },
+    }, popupText: {
+        textAlign: "center",
+    }
+
 });
 
 const headerStyles = StyleSheet.create({

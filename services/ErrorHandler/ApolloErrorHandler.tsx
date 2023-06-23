@@ -42,6 +42,11 @@ export function handlePasswordLengthRequirement(showErrorModal) {
     showErrorModal('Your password must be at least 6 characters long.');
 }
 
+export function handleUsernameLengthRequirement(showErrorModal) {
+    showErrorModal('Your username must be at least 6 characters long.');
+}
+
+
 export function handleAnotherSpecificError(showErrorModal) {
     showErrorModal('Another specific error');
 }
@@ -50,9 +55,6 @@ export function handleGraphQLError(graphQLErrors, showErrorModal) {
     const deepestErrorMessage = graphQLErrors[graphQLErrors.length - 1].message;
 
     switch (deepestErrorMessage) {
-        case '2 errors occurred':
-            handle2RequiredError(showErrorModal)
-            break;
         case 'Invalid identifier or password':
             handleInvalidIdentifierOrPasswordError(showErrorModal);
             break;
@@ -68,11 +70,15 @@ export function handleGraphQLError(graphQLErrors, showErrorModal) {
         case 'password must be at least 6 characters':
             handlePasswordLengthRequirement(showErrorModal)
             break;
+        case 'username must be at least 3 characters':
+            handleUsernameLengthRequirement(showErrorModal)
+            break;
         default:
             showErrorModal(`GraphQL error: ${deepestErrorMessage}`);
             console.error([...graphQLErrors.jsonParseErrorDefault()]);
             break;
     }
+
 }
 
 export function handleNetworkOrServerError(error, showErrorModal) {

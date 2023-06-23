@@ -22,12 +22,12 @@ export function SettingsScreen() {
         jwt(null);
         //This is not necessary somehow
         // Navigate to the first screen of AuthStack
-        navigation.dispatch(
-            CommonActions.reset({
-                index: 1,
-                routes: [{name: 'LoginScreen'}],
-            })
-        );
+        // navigation.dispatch(
+        //     CommonActions.reset({
+        //         index: 1,
+        //         routes: [{name: 'LoginScreen'}],
+        //     })
+        // );
     }
     return (
         <View style={styles.container}>

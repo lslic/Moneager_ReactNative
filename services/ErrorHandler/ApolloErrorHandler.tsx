@@ -35,6 +35,12 @@ export function handlePasswordRequiredError(showErrorModal) {
 export function handleIdentifierRequiredError(showErrorModal) {
     showErrorModal('Email is a required field');
 }
+export function handle2RequiredError(showErrorModal) {
+    showErrorModal('You forgot to populate the fields');
+}
+export function handlePasswordLengthRequirement(showErrorModal) {
+    showErrorModal('Your password must be at least 6 characters long.');
+}
 
 export function handleAnotherSpecificError(showErrorModal) {
     showErrorModal('Another specific error');
@@ -44,6 +50,9 @@ export function handleGraphQLError(graphQLErrors, showErrorModal) {
     const deepestErrorMessage = graphQLErrors[graphQLErrors.length - 1].message;
 
     switch (deepestErrorMessage) {
+        case '2 errors occurred':
+            handle2RequiredError(showErrorModal)
+            break;
         case 'Invalid identifier or password':
             handleInvalidIdentifierOrPasswordError(showErrorModal);
             break;
@@ -52,6 +61,12 @@ export function handleGraphQLError(graphQLErrors, showErrorModal) {
             break;
         case 'identifier is a required field':
             handleIdentifierRequiredError(showErrorModal);
+            break;
+        case 'email must be a valid email':
+            handleIdentifierRequiredError(showErrorModal)
+            break;
+        case 'password must be at least 6 characters':
+            handlePasswordLengthRequirement(showErrorModal)
             break;
         default:
             showErrorModal(`GraphQL error: ${deepestErrorMessage}`);

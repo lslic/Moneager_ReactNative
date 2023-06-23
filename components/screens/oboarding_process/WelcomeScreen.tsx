@@ -31,7 +31,7 @@ export function WelcomeScreen ({navigation}) {
                 <CustomButton
                     unfilled={false}
                     title={'Let\'s get started'}
-                    onPress={() => navigation.navigate('RegisterPage')}
+                    onPress={() => navigation.navigate('Onboarding1')}
                     name={false}
                 />
             </View>

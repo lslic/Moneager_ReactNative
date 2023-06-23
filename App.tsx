@@ -1,5 +1,4 @@
-import React, {memo, useEffect, useState} from "react";
-import {StyleSheet, View} from 'react-native';
+import React, {memo} from "react";
 import GlobalStyles from './components/shared/GlobalStyle';
 import {AccountCreationNavigator} from "./navigation/accountCreationStackNavigator";
 import {ApolloClient, ApolloProvider, createHttpLink, InMemoryCache, useReactiveVar} from "@apollo/client";
@@ -9,8 +8,9 @@ import {jwt} from "./constants/grafql/jwt";
 import {createNativeStackNavigator} from "@react-navigation/native-stack";
 import {SafeAreaProvider} from "react-native-safe-area-context";
 import {useCustomResourceLoading} from "./services/CustomResourceLoading";
-import {LoginPage} from "./components/screens/LoginScreen";
+import {LoginScreen} from "./components/screens/LoginScreen";
 import * as SplashScreen from 'expo-splash-screen';
+import {RegisterScreen} from "./components/screens/oboarding_process/RegisterScreen";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -32,19 +32,20 @@ const httpLink = createHttpLink({
 });
 
 
-//Remeber the client Cache
+//Remember the client Cache
 const client = new ApolloClient({
     link: authLink.concat(httpLink),
     cache: new InMemoryCache()
 });
 
 
+const Stack = createNativeStackNavigator();
 //Prevent unnecessary redraws
-export const AppStack = memo(() => {
 
-    const Stack = createNativeStackNavigator();
+export const AppStack = memo(() => {
     return <Stack.Navigator>
-        <Stack.Screen name="LoginScreen" component={LoginPage} options={{headerShown: false}}/>
+        <Stack.Screen name="LoginScreen" component={LoginScreen} options={{headerShown: false}}/>
+        <Stack.Screen name="RegisterScreen" component={RegisterScreen} options={{headerShown: false}}/>
     </Stack.Navigator>;
 });
 
@@ -60,15 +61,10 @@ export const Navigation = () => {
 export default function App() {
     const isLoading = useCustomResourceLoading();
 
-    if (isLoading) {
-        return null;
-    }
-
-
-    return (
+    return isLoading ? null : (
         <ApolloProvider client={client}>
             <SafeAreaProvider style={GlobalStyles.droidSafeArea}>
-                <Navigation />
+                <Navigation/>
             </SafeAreaProvider>
         </ApolloProvider>
     );

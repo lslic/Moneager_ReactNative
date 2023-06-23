@@ -1,28 +1,47 @@
 import * as React from "react";
-import { ScrollView, StyleSheet, Text, TextInput, View } from "react-native";
+import {Modal, ScrollView, StyleSheet, Text, TextInput, TouchableOpacity, View} from "react-native";
 import { CustomButton } from "../../ui/buttons";
-import { colors, NeutralColors } from "../../../constants/colors"
-import { Image } from "expo-image";
+import {colors, NeutralColors, PrimaryColors} from "../../../constants/colors"
 import {useState} from "react";
 import {useMutation} from "@apollo/client";
-import {jwt, SIGNUP_MUTATION} from "../../../constants/grafql/jwt";
+import {jwt, LOGIN_MUTATION, SIGNUP_MUTATION} from "../../../constants/grafql/jwt";
+import {handleApolloError, useErrorModal} from "../../../services/ErrorHandler/ApolloErrorHandler";
 
 
 
 // @ts-ignore
-export function RegisterPage({navigation}) {
+export function RegisterScreen({navigation}) {
 
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [user, setUser] = useState('');
+    const { popupVisible, popupMessage, closeModal, showErrorModal } = useErrorModal();
 
     const [signup] = useMutation(SIGNUP_MUTATION);
+    const [login] = useMutation(LOGIN_MUTATION);
+    const handleRegisterSubmit = async () => {
 
-    const handleRegisterSubmit = () => {
-        signup({ variables: { input: { username: user, email: email, password: password }}}).then((res) => {
+        try{
+            const res =
+                await signup( {variables: { input: { username: user, email: email, password: password }}})
             jwt(res.data.register.jwt);
-            console.log(res.data.register.jwt)
-        }) ;
+            await handleLoginSubmit();
+        } catch (error) {
+            handleApolloError(error, showErrorModal);
+
+        }
+    };
+
+    const handleLoginSubmit = async () => {
+        try {
+            const res =
+                await login({ variables:
+                        { input: { identifier: email, password: password }}});
+            jwt(res.data.login.jwt);
+        } catch (error) {
+            handleApolloError(error, showErrorModal);
+            console.log(error)
+        }
     };
 
 
@@ -87,7 +106,7 @@ export function RegisterPage({navigation}) {
                         </Text>
                         <View style={footerStyles.tasText}>
                             <Text style={footerStyles.textHasAccount}>Already have an account? </Text>
-                            <Text style={footerStyles.loginText} onPress={() => console.log("Log in pressed")}>
+                            <Text style={footerStyles.loginText} onPress={() => navigation.goBack()}>
                                 Log in
                             </Text>
                         </View>
@@ -95,6 +114,24 @@ export function RegisterPage({navigation}) {
                     </View>
                 </View>
             </ScrollView>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={popupVisible}
+                onRequestClose={closeModal}
+            >
+                <View style={styles.modalContainer}>
+                    <View style={styles.modalContent}>
+                        <Text>{popupMessage}</Text>
+                        <TouchableOpacity
+                            onPress={closeModal}
+                            style={styles.buttonStyle}
+                        >
+                            <Text style={{ color: '#fff' }}>Close</Text>
+                        </TouchableOpacity>
+                    </View>
+                </View>
+            </Modal>
         </View>
     );
 }
@@ -103,6 +140,29 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: "#fff",
+    },
+    buttonStyle: {
+        backgroundColor: PrimaryColors.PC_600,
+        padding: 10,
+        marginTop: 8,
+        paddingHorizontal: 25,
+        borderRadius: 5,
+    },
+    modalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+
+    },
+    modalContent: {
+        backgroundColor: NeutralColors.NC_WHITE,
+        padding: 16,
+        margin: 16,
+        alignItems: 'center',
+        borderRadius: 20,
+        borderWidth: 2,
+        borderColor: PrimaryColors.PC_800
     },
     scrollContainer: {
         flexGrow: 1,

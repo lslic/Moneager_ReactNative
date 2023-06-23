@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { Alert, Modal, StyleSheet, Text, Pressable, View } from 'react-native';
 import { ApolloError } from '@apollo/client';
 
 
@@ -23,12 +22,11 @@ export const useErrorModal = () => {
         closeModal,
         showErrorModal,
         setPopupMessage,
-
     };
 };
 
 export function handleInvalidIdentifierOrPasswordError(showErrorModal) {
-    showErrorModal('Invalid identifier or password');
+    showErrorModal('Invalid Email or Password');
 }
 
 export function handlePasswordRequiredError(showErrorModal) {
@@ -45,14 +43,20 @@ export function handleAnotherSpecificError(showErrorModal) {
 export function handleGraphQLError(graphQLErrors, showErrorModal) {
     const deepestErrorMessage = graphQLErrors[graphQLErrors.length - 1].message;
 
-    if (deepestErrorMessage === 'Invalid identifier or password') {
-        handleInvalidIdentifierOrPasswordError(showErrorModal);
-    } else if (deepestErrorMessage === 'password is a required field') {
-        handlePasswordRequiredError(showErrorModal);
-    } else if (deepestErrorMessage === 'identifier is a required field') {
-        handleIdentifierRequiredError(showErrorModal);
-    } else {
-        showErrorModal(`GraphQL error: ${deepestErrorMessage}`);
+    switch (deepestErrorMessage) {
+        case 'Invalid identifier or password':
+            handleInvalidIdentifierOrPasswordError(showErrorModal);
+            break;
+        case 'password is a required field':
+            handlePasswordRequiredError(showErrorModal);
+            break;
+        case 'identifier is a required field':
+            handleIdentifierRequiredError(showErrorModal);
+            break;
+        default:
+            showErrorModal(`GraphQL error: ${deepestErrorMessage}`);
+            console.error([...graphQLErrors.jsonParseErrorDefault()]);
+            break;
     }
 }
 
@@ -70,3 +74,5 @@ export function handleApolloError(error, showErrorModal) {
         handleNetworkOrServerError(error, showErrorModal);
     }
 }
+
+

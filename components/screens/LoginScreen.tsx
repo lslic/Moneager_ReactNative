@@ -1,19 +1,20 @@
 import * as React from "react";
-import {Image, ScrollView, StyleSheet, Text, TextInput, Alert, Modal, View, Button} from "react-native";
+import {Image, ScrollView, StyleSheet, Text, TextInput, Alert, Modal, View, Button, TouchableOpacity} from "react-native";
 
 import {useState} from "react";
 import {ApolloError, useMutation} from "@apollo/client";
 
 import {jwt, LOGIN_MUTATION} from "../../constants/grafql/jwt";
 import {CustomButton} from "../ui/buttons";
-import {colors, NeutralColors} from "../../constants/colors";
+import {colors, NeutralColors, PrimaryColors} from "../../constants/colors";
 import {handleApolloError, useErrorModal} from "../../services/ErrorHandler/ApolloErrorHandler";
+import * as util from "util";
 
 
 const imagePath = require('./../../assets/images/logo_nobackground.png');
 
 // @ts-ignore
-export function LoginPage({navigation, visible, message, onClose }) {
+export function LoginScreen({navigation, visible, message, onClose }) {
     const [password, setPassword] = useState('');
     const [email, setEmail] = useState('');
     const { popupVisible, popupMessage, closeModal, showErrorModal } = useErrorModal();
@@ -21,10 +22,13 @@ export function LoginPage({navigation, visible, message, onClose }) {
 
     const handleLoginSubmit = async () => {
         try {
-            const res = await login({ variables: { input: { identifier: email, password: password }}});
+            const res =
+                await login({ variables:
+                        { input: { identifier: email, password: password }}});
             jwt(res.data.login.jwt);
         } catch (error) {
             handleApolloError(error, showErrorModal);
+            console.log(error)
         }
     };
 
@@ -66,7 +70,7 @@ export function LoginPage({navigation, visible, message, onClose }) {
                                 autoCapitalize='none'
                                 autoCorrect={false}
                                 style={bodyStyles.textInput}
-                                placeholder={'Your Name'}
+                                placeholder={'Your Email'}
                                 onChangeText={text => setEmail(text)}
                             />
                             <TextInput
@@ -95,7 +99,7 @@ export function LoginPage({navigation, visible, message, onClose }) {
                         </Text>
                         <View style={footerStyles.tasText}>
                             <Text style={footerStyles.textHasAccount}>Already have an account? </Text>
-                            <Text style={footerStyles.loginText} onPress={() => console.log("Log in pressed")}>
+                            <Text style={footerStyles.loginText} onPress={() => navigation.navigate('RegisterScreen')}>
                                 Sign Up
                             </Text>
                         </View>
@@ -103,7 +107,6 @@ export function LoginPage({navigation, visible, message, onClose }) {
                 </View>
             </ScrollView>
 
-            {/* Modal */}
             <Modal
                 animationType="fade"
                 transparent={true}
@@ -113,7 +116,12 @@ export function LoginPage({navigation, visible, message, onClose }) {
                 <View style={styles.modalContainer}>
                     <View style={styles.modalContent}>
                         <Text>{popupMessage}</Text>
-                        <Button title="Close" onPress={closeModal} />
+                        <TouchableOpacity
+                            onPress={closeModal}
+                            style={styles.buttonStyle}
+                        >
+                            <Text style={{ color: '#fff' }}>Close</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </Modal>
@@ -122,22 +130,33 @@ export function LoginPage({navigation, visible, message, onClose }) {
 }
 
 
+// @ts-ignore
 const styles = StyleSheet.create({
     container: {
         backgroundColor: "#fff",
+    },
+    buttonStyle: {
+        backgroundColor: PrimaryColors.PC_600,
+        padding: 10,
+        marginTop: 8,
+        paddingHorizontal: 25,
+        borderRadius: 5,
     },
     modalContainer: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
+
     },
     modalContent: {
-        backgroundColor: 'white',
+        backgroundColor: NeutralColors.NC_WHITE,
         padding: 16,
         margin: 16,
-        borderRadius: 8,
         alignItems: 'center',
+        borderRadius: 20,
+        borderWidth: 2,
+        borderColor: PrimaryColors.PC_800
     },
     scrollContainer: {
         flexGrow: 1,

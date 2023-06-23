@@ -6,7 +6,7 @@ import {Onboarding2} from "../components/screens/oboarding_process/Onboarding/Ob
 import {Onboarding3} from "../components/screens/oboarding_process/Onboarding/Oboarding3Screen";
 import {Onboarding4} from "../components/screens/oboarding_process/Onboarding/Oboarding4Screen";
 import {OnboardingFinal} from "../components/screens/oboarding_process/Onboarding/OboardingFinalScreen";
-import {RegisterPage} from "../components/screens/oboarding_process/RegisterScreen";
+import {RegisterScreen} from "../components/screens/oboarding_process/RegisterScreen";
 import {TopNavigator} from "./skect_bottomTabNavigator";
 
 const startStackNavigator = createNativeStackNavigator();
@@ -15,7 +15,7 @@ export function AccountCreationNavigator() {
     return (
             <startStackNavigator.Navigator screenOptions={{headerShown: false}} >
                 <startStackNavigator.Screen name="Welcome" component={WelcomeScreen}/>
-                <startStackNavigator.Screen name="RegisterPage" component={RegisterPage} />
+                {/*<startStackNavigator.Screen name="RegisterPage" component={RegisterScreen} />*/}
                 <startStackNavigator.Screen name="Onboarding1" component={Onboarding1} />
                 <startStackNavigator.Screen name="Onboarding2" component={Onboarding2} />
                 <startStackNavigator.Screen name="Onboarding3" component={Onboarding3} />

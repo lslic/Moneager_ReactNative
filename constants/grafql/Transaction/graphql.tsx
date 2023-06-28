@@ -92,27 +92,30 @@ export const GET_USER_WALLETS_QUERY = gql`
         }
     }`
 
- export const GET_TRANSACTIONS_QUERY= gql`query($filters: TransactionFiltersInput) {
-     transactions(filters: $filters) {
-         data {
-             id
-             attributes {
-                 createdAt
-                 amount
-                 category
-                 name
-                 wallet {
-                     data {
-                         attributes {
-                             type
+ export const GET_TRANSACTIONS_QUERY = gql`
+     query GetTransactions($filters: TransactionFiltersInput) {
+         transactions(filters: $filters) {
+             data {
+                 id
+                 attributes {
+                     createdAt
+                     amount
+                     category
+                     name
+                     wallet {
+                         data {
+                             attributes {
+                                 type
+                             }
                          }
                      }
                  }
+                 
              }
          }
      }
- }
-`
+ `;
+
 
  export const GET_WALLET_BALANCES = gql`query GetWalletBalanceQUERY($walletId: ID) {
      wallet(id: $walletId) {

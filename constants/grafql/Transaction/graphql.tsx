@@ -87,6 +87,7 @@ export const GET_USER_WALLETS_QUERY = gql`
                 attributes {
                     type
                     name
+                    amount
                 }
             }
         }

@@ -1,8 +1,9 @@
 import { Text, View, StyleSheet, FlatList } from 'react-native';
-import React from 'react';
+import React, { useEffect, useCallback } from 'react';
 import { useQuery } from '@apollo/client';
-import {GET_ALL_WALLETS_QUERY} from "../../constants/grafql/Transaction/graphql";
-import {PrimaryColors} from "../../constants/colors";
+import { GET_ALL_WALLETS_QUERY } from "../../constants/grafql/Transaction/graphql";
+import { PrimaryColors } from "../../constants/colors";
+import { useIsFocused } from '@react-navigation/native';
 
 const WalletCard = ({ wallet }) => {
     const intensity = Math.max(0, Math.min(255, Math.abs(wallet.amount) * 2));
@@ -12,7 +13,7 @@ const WalletCard = ({ wallet }) => {
 
     return (
         <View style={[styles.card, { borderColor: PrimaryColors.PC_800 }]}>
-            <Text style={styles.name} >{wallet.name}</Text>
+            <Text style={styles.name}>{wallet.name}</Text>
             <Text style={[styles.amount, { color: PrimaryColors.PC_600 }]}>
                 Wallet {wallet.id}: ${wallet.amount}
             </Text>
@@ -21,7 +22,16 @@ const WalletCard = ({ wallet }) => {
 };
 
 export function WalletScreen() {
-    const { loading, error, data } = useQuery(GET_ALL_WALLETS_QUERY);
+    const { loading, error, data, refetch } = useQuery(GET_ALL_WALLETS_QUERY);
+    const isFocused = useIsFocused();
+
+    const handleFocusEffect = useCallback(() => {
+        refetch();
+    }, [refetch]);
+
+    useEffect(() => {
+        handleFocusEffect();
+    }, [handleFocusEffect, isFocused]);
 
     if (loading) {
         return (

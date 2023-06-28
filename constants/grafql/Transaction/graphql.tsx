@@ -1,4 +1,4 @@
-import {gql, useMutation} from "@apollo/client";
+ import {gql, useMutation} from "@apollo/client";
 
 export const CREATE_WALLET_MUTATION = gql`
     mutation CreateWallet($data: WalletInput!) {
@@ -91,3 +91,49 @@ export const GET_USER_WALLETS_QUERY = gql`
             }
         }
     }`
+
+ export const GET_TRANSACTIONS_QUERY= gql`query($filters: TransactionFiltersInput) {
+     transactions(filters: $filters) {
+         data {
+             id
+             attributes {
+                 createdAt
+                 amount
+                 category
+                 name
+                 wallet {
+                     data {
+                         attributes {
+                             type
+                         }
+                     }
+                 }
+             }
+         }
+     }
+ }
+`
+
+ export const GET_WALLET_BALANCES = gql`query GetWalletBalanceQUERY($walletId: ID) {
+     wallet(id: $walletId) {
+         data {
+             attributes {
+                 amount
+             }
+         }
+     }
+ }
+     `
+
+ export const GET_ALL_WALLETS_QUERY = gql`query GetAllWallets {
+  wallets {
+   data {
+    id
+    attributes {
+     amount
+        
+    }
+   }
+  }
+ }
+`

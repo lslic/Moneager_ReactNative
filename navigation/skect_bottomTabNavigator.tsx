@@ -8,6 +8,8 @@ import {TransactionsScreen} from '../components/screens/TransactionsScreen';
 import {SettingsScreen} from '../components/screens/SettingsScreen';
 import {MaterialCommunityIcons} from '@expo/vector-icons';
 import { PrimaryColors } from "../constants/colors";
+import {HistoryScreen} from "../components/screens/HistoryScreen";
+import {WalletScreen} from "../components/screens/WalletScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -45,7 +47,7 @@ export function TopNavigator() {
             <Tab.Navigator screenOptions={{ tabBarActiveTintColor: PrimaryColors.PC_800, tabBarLabelStyle: styles.tabBarLabel} }>
                 <Tab.Screen
                     name="Statistics"
-                    component={MainScreen}
+                    component={WalletScreen}
                     options={{
                         tabBarIcon: ({ color }) => (
                             <StatisticsIcon color={color} size={20}  />
@@ -72,7 +74,7 @@ export function TopNavigator() {
                 />
                 <Tab.Screen
                     name="History"
-                    component={MainScreen}
+                    component={HistoryScreen}
                     options={{
                         tabBarIcon: ({ color }) => (
                             <HistoryIcon color={color} size={20} />

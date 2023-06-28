@@ -32,10 +32,10 @@ const httpLink = createHttpLink({
 });
 
 
-//Remember the client Cache
+
 const Stack = createNativeStackNavigator();
 
-
+//Remember the client Cache
 const client = new ApolloClient({
     link: authLink.concat(httpLink),
     cache: new InMemoryCache()
@@ -50,7 +50,7 @@ export const AppStack = memo(() => {
     </Stack.Navigator>;
 });
 
-
+//Navigation checker
 export const Navigation = () => {
     const isLoggedIn = useReactiveVar(jwt);
     return <NavigationContainer>
@@ -58,7 +58,7 @@ export const Navigation = () => {
     </NavigationContainer>
 }
 
-
+//Main application
 export default function App() {
     const isLoading = useCustomResourceLoading();
 

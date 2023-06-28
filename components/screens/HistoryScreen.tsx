@@ -9,10 +9,6 @@ export function HistoryScreen() {
     const isFocused = useIsFocused();
 
     const { loading, error, data, refetch } = useQuery(GET_TRANSACTIONS_QUERY, {
-        variables: {
-            filters: null,
-            sort: ["!id"],
-        },
         notifyOnNetworkStatusChange: true,  // Enables refetching when calling refetch() method
     });
 
@@ -55,14 +51,21 @@ const TransactionCard = ({ transaction }) => {
     const green = transaction.amount >= 0 ? intensity : 0;
     const amountColor = `rgba(${red}, ${green}, 0, 1)`;
 
+    const renderWalletType = () => {
+        if (transaction.wallet && transaction.wallet.data) {
+            return (
+                <Text style={styles.wallet}>{`Wallet: ${transaction.wallet.data.attributes.type}`}</Text>
+            );
+        }
+        return null;
+    };
 
     return (
         <View style={[styles.card, { borderColor: amountColor }]}>
-            <Text style={[styles.amount, { color: amountColor }]}>
-                {transaction.amount}
-            </Text>
+            <Text style={[styles.amount, { color: amountColor }]}>{transaction.amount}</Text>
             <Text style={styles.category}>{transaction.category}</Text>
             <Text style={styles.name}>{transaction.name}</Text>
+            {renderWalletType()}
         </View>
     );
 };

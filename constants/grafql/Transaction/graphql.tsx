@@ -1,4 +1,4 @@
- import {gql, useMutation} from "@apollo/client";
+ import {gql, useMutation, useQuery} from "@apollo/client";
 
 export const CREATE_WALLET_MUTATION = gql`
     mutation CreateWallet($data: WalletInput!) {
@@ -141,3 +141,29 @@ export const GET_USER_WALLETS_QUERY = gql`
   }
  }
 `
+
+ export const GET_ALL_WALLETS_QUERY_NEW = gql`
+     query Query_NEW($filters: WalletFiltersInput) {
+         wallets(filters: $filters) {
+             data {
+                 attributes {
+                     amount
+                     name
+                     transactions {
+                         data {
+                             attributes {
+                                 name
+                                 updatedAt
+                                 amount
+                                 category
+                             }
+                         }
+                     }
+                     type
+                 }
+             }
+         }
+     }
+ `;
+
+ // Update the useQuery hook to use the updated query

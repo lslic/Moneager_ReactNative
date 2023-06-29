@@ -1,4 +1,4 @@
-import { Text, View, TextInput } from 'react-native';
+import {Text, View, TextInput, Modal, Alert, TouchableOpacity} from 'react-native';
 import { StyleSheet } from 'react-native';
 import React, { useState } from 'react';
 import RNPickerSelect from 'react-native-picker-select';
@@ -26,11 +26,15 @@ export const TransactionsScreen = () => {
     const [createTransaction] = useMutation(CREATE_TRANSACTION_MUTATION);
     const [updateWalletAmount] = useMutation(UPDATE_WALLET_AMOUNT_MUTATION);
 
+    const [modalVisible, setModalVisible] = useState(false);
+    const [modalMessage, setModalMessage] = useState('');
+
     const handleCreateTransaction = async () => {
         try {
             const transactionAmount = parseFloat(amount);
             const wallet = userWallets.wallets.data.find((wallet) => wallet.id === walletID);
             const currentAmount = wallet.attributes.amount;
+
             let updatedAmount = currentAmount;
 
             if (type === 'Add') {
@@ -45,6 +49,8 @@ export const TransactionsScreen = () => {
             if (updatedAmount < 0) {
                 // Check if the updated amount is negative
                 console.log('Insufficient funds in the wallet');
+                setModalMessage('Insufficient funds in the wallet');
+                setModalVisible(true);
                 return;
             }
 
@@ -95,6 +101,27 @@ export const TransactionsScreen = () => {
 
     return (
         <View style={styles.container}>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    Alert.alert("Modal has been closed.");
+                    setModalVisible(!modalVisible);
+                }}
+            >
+                <View style={styles.centeredView}>
+                    <View style={styles.modalView}>
+                        <Text style={styles.modalText}>{modalMessage}</Text>
+                        <CustomButton
+                            title="Hide Modal"
+                            onPress={() => setModalVisible(!modalVisible)}
+                            unfilled={false} // or true, based on your styling preference
+                            name="close" // or any other icon name based on your preference
+                        />
+                    </View>
+                </View>
+            </Modal>
             <Text style={styles.headerText}>Transaction</Text>
             <View style={styles.formContainer}>
                 <View style={styles.inputContainer}>
@@ -197,6 +224,44 @@ const styles = StyleSheet.create({
         fontFamily: 'Inter_500Medium',
         color: NeutralColors.NC_900,
     },
+    centeredView: {
+        flex: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        marginTop: 22
+    },
+    modalView: {
+        margin: 20,
+        backgroundColor: "white",
+        borderRadius: 20,
+        padding: 35,
+        alignItems: "center",
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 2
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 4,
+        elevation: 5
+    },
+    button: {
+        borderRadius: 20,
+        padding: 10,
+        elevation: 2
+    },
+    buttonClose: {
+        backgroundColor: "#2196F3",
+    },
+    textStyle: {
+        color: "white",
+        fontWeight: "bold",
+        textAlign: "center"
+    },
+    modalText: {
+        marginBottom: 15,
+        textAlign: "center"
+    }
 });
 
 const pickerSelectStyles = StyleSheet.create({

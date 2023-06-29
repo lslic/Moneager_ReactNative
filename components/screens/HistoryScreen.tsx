@@ -17,7 +17,6 @@ export function HistoryScreen() {
         fetchPolicy: 'network-only', // This will bypass Apollo's cache and ensure a network request is always made
         notifyOnNetworkStatusChange: true,  // Enables refetching when calling refetch() method
     });
-
     useEffect(() => {
         if (isFocused) {
             refetch();
@@ -49,18 +48,38 @@ export function HistoryScreen() {
         setSelectedWalletType(selectedWalletType === walletType ? '' : walletType);
     };
 
-
     return (
-        <View style={styles.container}>
-            {/* ...rest of the component */}
-            <FlatList
-                data={filteredTransactions}
-                renderItem={({ item }) => <TransactionCard transaction={item} />}
-                keyExtractor={(item, index) => index.toString()}
-                contentContainerStyle={styles.listContent}
-                showsVerticalScrollIndicator={false}
-            />
-        </View>
+            <View style={styles.container}>
+                <Text style={styles.header}>Transaction History</Text>
+                <View style={styles.filterContainer}>
+                    <Text style={styles.filterTitle}>Filter :</Text>
+                    <TouchableOpacity
+                        style={[styles.filterButton, selectedWalletType === 'NORMAL' && styles.filterButtonSelected]}
+                        onPress={() => handleFilterWalletType('NORMAL')}
+                    >
+                        <Text style={styles.filterButtonText}>Normal</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.filterButton, selectedWalletType === 'INVEST' && styles.filterButtonSelected]}
+                        onPress={() => handleFilterWalletType('INVEST')}
+                    >
+                        <Text style={styles.filterButtonText}>Invest</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[styles.filterButton, selectedWalletType === 'ECONOMY' && styles.filterButtonSelected]}
+                        onPress={() => handleFilterWalletType('ECONOMY')}
+                    >
+                        <Text style={styles.filterButtonText}>Economy</Text>
+                    </TouchableOpacity>
+                </View>
+                <FlatList
+                    data={filteredTransactions}
+                    renderItem={({ item }) => <TransactionCard transaction={item} />}
+                    keyExtractor={(item, index) => index.toString()}
+                    contentContainerStyle={styles.listContent}
+                    showsVerticalScrollIndicator={false}
+                />
+            </View>
     );
 }
 

@@ -5,6 +5,7 @@ import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native
 import {
     GET_ALL_WALLETS_QUERY_NEW, GET_TRANSACTIONS_QUERY
 } from "../../constants/grafql/Transaction/graphql";
+import {NeutralColors, PrimaryColors} from "../../constants/colors";
 
 export function HistoryScreen() {
     const navigation = useNavigation();
@@ -104,6 +105,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         marginBottom: 20,
+        color: PrimaryColors.PC_400
     },
     filterContainer: {
         flexDirection: 'row',
@@ -142,6 +144,7 @@ const styles = StyleSheet.create({
         fontSize: 18,
         fontWeight: 'bold',
         marginBottom: 8,
+        color : NeutralColors.NC_900
     },
     category: {
         fontSize: 16,
@@ -150,6 +153,7 @@ const styles = StyleSheet.create({
     },
     name: {
         fontSize: 16,
+        color :PrimaryColors.PC_600
     },
     walletType: {
         fontSize: 14,

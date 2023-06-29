@@ -15,7 +15,7 @@ const WalletCard = ({ wallet }) => {
         <View style={[styles.card, { borderColor: PrimaryColors.PC_800 }]}>
             <Text style={styles.name}>{wallet.name}</Text>
             <Text style={[styles.amount, { color: PrimaryColors.PC_600 }]}>
-                Wallet {wallet.id} {wallet.name}: ${wallet.amount}
+                Wallet {wallet.id}: ${wallet.amount}
             </Text>
         </View>
     );

@@ -30,7 +30,7 @@ const filledStyle = StyleSheet.create({
         paddingTop: 12,
         paddingBottom: 12,
         gap: 8,
-        margin:12
+
 
     },
     text: {

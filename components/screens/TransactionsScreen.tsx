@@ -36,7 +36,7 @@ export const TransactionsScreen = () => {
             if (type === 'Add') {
                 updatedAmount += transactionAmount;
             } else if (type === 'Extract') {
-                updatedAmount -= transactionAmount;
+                updatedAmount += transactionAmount;
             } else {
                 console.log('Invalid transaction type');
                 return;
@@ -180,6 +180,7 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
         marginBottom: 5,
+        color: NeutralColors.NC_900
     },
     input: {
         height: 40,
@@ -194,7 +195,7 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontWeight: 'bold',
         fontFamily: 'Inter_500Medium',
-        color: NeutralColors.NC_1200,
+        color: NeutralColors.NC_900,
     },
 });
 

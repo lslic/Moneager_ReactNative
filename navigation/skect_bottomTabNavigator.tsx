@@ -2,7 +2,6 @@ import * as React from 'react';
 import {SafeAreaView, StyleSheet, View, useColorScheme} from 'react-native';
 import {NavigationContainer, DefaultTheme, DarkTheme} from '@react-navigation/native';
 import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
-import {ProfileScreen} from '../components/screens/ProfileScreen';
 import {MainScreen} from '../components/screens/MainScreen';
 import {TransactionsScreen} from '../components/screens/TransactionsScreen';
 import {SettingsScreen} from '../components/screens/SettingsScreen';
@@ -10,6 +9,7 @@ import {MaterialCommunityIcons} from '@expo/vector-icons';
 import { PrimaryColors } from "../constants/colors";
 import {HistoryScreen} from "../components/screens/HistoryScreen";
 import {WalletScreen} from "../components/screens/WalletScreen";
+import {StatisticScreen} from "../components/screens/StatisticsScreen";
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -19,11 +19,11 @@ interface IconProps {
 }
 
 const StatisticsIcon: React.FC<IconProps> = ({ color, size }) => (
-    <MaterialCommunityIcons name="chart-bar" size={size} color={color} />
+    <MaterialCommunityIcons name="wallet" size={size} color={color} />
 );
 
 const ProfileIcon: React.FC<IconProps> = ({ color, size }) => (
-    <MaterialCommunityIcons name="account" size={size} color={color} />
+    <MaterialCommunityIcons name="chart-bar" size={size} color={color} />
 );
 
 const TransactionsIcon: React.FC<IconProps> = ({ color, size }) => (
@@ -46,7 +46,7 @@ export function TopNavigator() {
         <View style={styles.container}>
             <Tab.Navigator screenOptions={{ tabBarActiveTintColor: PrimaryColors.PC_800, tabBarLabelStyle: styles.tabBarLabel} }>
                 <Tab.Screen
-                    name="Statistics"
+                    name="Wallets"
                     component={WalletScreen}
                     options={{
                         tabBarIcon: ({ color }) => (
@@ -55,8 +55,8 @@ export function TopNavigator() {
                     }}
                 />
                 <Tab.Screen
-                    name="Profile"
-                    component={ProfileScreen}
+                    name="Statistic"
+                    component={StatisticScreen}
                     options={{
                         tabBarIcon: ({ color}) => (
                             <ProfileIcon color={color} size={20}  />

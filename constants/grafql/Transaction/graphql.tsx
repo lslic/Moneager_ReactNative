@@ -167,4 +167,18 @@ export const GET_USER_WALLETS_QUERY = gql`
      }
  `;
 
+ export const GET_ALL_WALLETS_QUERY_sta = gql`
+     query GetAllWallets {
+         wallets {
+             data {
+                 id
+                 attributes {
+                     amount
+                     name
+                 }
+             }
+         }
+     }
+ `;
+
  // Update the useQuery hook to use the updated query

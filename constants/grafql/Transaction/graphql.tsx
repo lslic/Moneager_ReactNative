@@ -135,6 +135,7 @@ export const GET_USER_WALLETS_QUERY = gql`
     id
     attributes {
      amount
+        name
         
     }
    }

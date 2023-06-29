@@ -1,113 +1,92 @@
 import React, { useEffect, useState } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
-import { Text, View, StyleSheet, FlatList, TouchableOpacity, TextInput, ScrollView } from 'react-native';
-import RNPickerSelect from 'react-native-picker-select';
+import { useNavigation, useIsFocused } from '@react-navigation/native';
+import { useQuery } from '@apollo/client';
+import { Text, View, StyleSheet, FlatList, TouchableOpacity } from 'react-native';
 import {
-    GET_ALL_WALLETS_QUERY,
-    GET_TRANSACTIONS_QUERY,
-    CREATE_TRANSACTION_MUTATION,
-    GET_TRANSACTION_ENUMS_QUERY,
-    GET_USER_WALLETS_QUERY, GET_ALL_WALLETS_QUERY_NEW,
+    GET_ALL_WALLETS_QUERY_NEW, GET_TRANSACTIONS_QUERY
 } from "../../constants/grafql/Transaction/graphql";
-import { userId } from "../../constants/grafql/jwt";
-import { NeutralColors } from "../../constants/colors";
-
-
 
 export function HistoryScreen() {
-    const { loading, error, data } = useQuery(GET_ALL_WALLETS_QUERY_NEW, {
+    const navigation = useNavigation();
+    const isFocused = useIsFocused();
+    const [selectedWalletType, setSelectedWalletType] = useState('');
+    const { loading: transactionsLoading, error: transactionsError, data: transactionsData, refetch } = useQuery(GET_ALL_WALLETS_QUERY_NEW, {
         variables: {
-            filters: {
-                id: {},
-            },
+            filters: {} // You can add any filters you need here
         },
+        fetchPolicy: 'network-only', // This will bypass Apollo's cache and ensure a network request is always made
+        notifyOnNetworkStatusChange: true,  // Enables refetching when calling refetch() method
     });
 
-    const { loading: walletsLoading, error: walletsError, data: walletsData } = useQuery(GET_ALL_WALLETS_QUERY_NEW, {
-        variables: {
-            filters: {
-                id: {} // You can add any other filters if needed
-            }
-        },
-    });
+    useEffect(() => {
+        if (isFocused) {
+            refetch();
+        }
+    }, [isFocused, refetch]);
 
-
-    if (loading) {
+    if (transactionsLoading) {
         return <Text>Loading...</Text>;
     }
 
-    if (error) {
-        console.log(error);
+    if (transactionsError) {
+        console.log(transactionsError);
         return <Text>Error occurred while fetching data</Text>;
     }
 
-    const wallets = data?.wallets?.data || [];
+// Flatten wallets and transactions into one list
+    let transactions = [];
+    transactionsData?.wallets?.data?.forEach(wallet => {
+        wallet.attributes.transactions.data.forEach(transaction => {
+            transactions.push({ ...transaction.attributes, walletType: wallet.attributes.type });
+        });
+    });
+
+    const filteredTransactions = selectedWalletType
+        ? transactions.filter(transaction => transaction.walletType === selectedWalletType)
+        : transactions;
+
+    const handleFilterWalletType = (walletType) => {
+        setSelectedWalletType(selectedWalletType === walletType ? '' : walletType);
+    };
+
 
     return (
-        <ScrollView contentContainerStyle={styles.scrollContainer}>
-            <View style={styles.container}>
-                <View style={styles.filterContainer}>
-                    {/* Render filter buttons */}
-                </View>
-                {wallets.map((wallet) => (
-                    <View key={wallet.attributes.name}>
-                        <Text style={styles.walletTitle}>{wallet.attributes.name}</Text>
-                        {wallet.attributes.transactions?.data.map((transaction) => (
-                            <TransactionCard
-                                key={transaction.attributes.updatedAt}
-                                transaction={transaction.attributes}
-                                style={styles.transactionCard}
-                            />
-                        ))}
-                    </View>
-                ))}
-            </View>
-        </ScrollView>
+        <View style={styles.container}>
+            {/* ...rest of the component */}
+            <FlatList
+                data={filteredTransactions}
+                renderItem={({ item }) => <TransactionCard transaction={item} />}
+                keyExtractor={(item, index) => index.toString()}
+                contentContainerStyle={styles.listContent}
+                showsVerticalScrollIndicator={false}
+            />
+        </View>
     );
 }
 
-// Other components and styles remain the same
-
-
-const TransactionCard = ({ transaction, style }) => {
-    let amountColor;
-    if (transaction.wallet?.data?.attributes?.type === 'NORMAL') {
-        amountColor = transaction.amount >= 0 ? 'green' : 'red';
-    }
-    if (transaction.wallet?.data?.attributes?.type === 'INVEST') {
-        amountColor = 'purple';
-    }
-    if (transaction.wallet?.data?.attributes?.type === 'ECONOMY') {
-        amountColor = transaction.amount < 0 ? 'orange' : 'red';
-    }
-
+const TransactionCard = ({ transaction }) => {
     return (
-        <View style={[styles.card, style]}>
-            <Text style={[styles.amount, { color: amountColor }]}>
-                {transaction.amount}
-            </Text>
-            <Text style={styles.name}>{"Name: " + transaction.name}</Text>
-            <Text style={styles.category}>{"Category: " + transaction.category}</Text>
-            {transaction.wallet?.data?.attributes?.type && (
-                <Text style={styles.walletType}>{"Wallet: " + transaction.wallet.data.attributes.type}</Text>
-            )}
+        <View style={styles.card}>
+            <Text style={styles.amount}>{transaction.amount}</Text>
+            <Text style={styles.category}>{transaction.category}</Text>
+            <Text style={styles.name}>{transaction.name}</Text>
+            <Text style={styles.walletType}>{transaction.walletType}</Text>
         </View>
     );
 };
 
 const styles = StyleSheet.create({
-    transactionCard: {
-        width: '90%',
-        alignSelf: 'center',
-    },
     container: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        width: '100%',
+        padding: 20,
+        backgroundColor: '#fff',
+    },
+    header: {
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 20,
     },
     filterContainer: {
-        paddingTop: 24,
         flexDirection: 'row',
         alignItems: 'center',
         marginBottom: 16,
@@ -131,12 +110,14 @@ const styles = StyleSheet.create({
         fontSize: 14,
         color: 'black',
     },
+    listContent: {
+        flexGrow: 1,
+    },
     card: {
         backgroundColor: '#f5f5f5',
         borderRadius: 8,
         padding: 16,
         marginBottom: 16,
-        width: '100%',
     },
     amount: {
         fontSize: 18,
@@ -156,17 +137,4 @@ const styles = StyleSheet.create({
         color: 'blue',
         marginTop: 4,
     },
-    walletTitle: {  // Add the walletTitle style
-        fontSize: 18,
-        fontWeight: 'bold',
-        marginTop: 16,
-    },
-    scrollContainer: {
-        flexGrow: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-    },
-
-});
-
-
+})

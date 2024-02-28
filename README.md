@@ -1,3 +1,13 @@
-# Moneager
-## 1. npm install should use sudo if you are on linux
-https://hackernoon.com/how-to-create-your-first-nestjs-app-jp143t8y
+
+## Gif Demo
+<img src="profile/demo.gif" style="max-width: 30%;
+max-height: 30%">
+
+
+
+
+## Presentation of the aplication 👋
+![Alt Text](profile/Presentation.gif)
+
+
+
